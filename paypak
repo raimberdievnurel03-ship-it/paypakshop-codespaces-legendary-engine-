@@ -1,0 +1,293 @@
+
+
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "Новая папка (3)"
+	}
+}
+<!DOCTYPE html>
+<html lang="ky">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PaypakShop</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f5f5f5;
+  color: #222;
+}
+header {
+  background: #171717;
+  color: white;
+  padding: 22px;
+  text-align: center;
+}
+header h1 {
+  margin: 0;
+  color: #ffd166;
+}
+nav {
+  background: #292929;
+  padding: 14px;
+  text-align: center;
+}
+nav a {
+  color: white;
+  text-decoration: none;
+  margin: 10px;
+}
+.hero {
+  padding: 35px 15px;
+  text-align: center;
+  background: #ffe8b5;
+}
+.hero h2 {
+  font-size: 28px;
+}
+.products {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+.product {
+  background: white;
+  padding: 15px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 3px 10px #ddd;
+}
+.product img {
+  width: 100%;
+  height: 190px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+.price {
+  color: #e67e22;
+  font-size: 20px;
+  font-weight: bold;
+}
+button {
+  background: #171717;
+  color: white;
+  padding: 12px 18px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+button:hover {
+  background: #e67e22;
+}
+.cart {
+  background: white;
+  margin: 20px;
+  padding: 20px;
+  border-radius: 12px;
+}
+input, select {
+  width: 100%;
+  padding: 12px;
+  margin: 7px 0;
+  border: 1px solid #ccc;
+  border-radius: 7px;
+}
+footer {
+  background: #171717;
+  color: white;
+  text-align: center;
+  padding: 20px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>🧦 PaypakShop</h1>
+  <p>Сапаттуу пайпактар — жеткиликтүү баада!</p>
+</header>
+
+<nav>
+  <a href="#home">Башкы бет</a>
+  <a href="#products">Товарлар</a>
+  <a href="#cart">Себет</a>
+</nav>
+
+<section class="hero" id="home">
+  <h2>PaypakShop'ко кош келиңиз!</h2>
+  <p>Өзүңүзгө жаккан пайпакты тандаңыз.</p>
+  <a href="#products"><button>Товарларды көрүү</button></a>
+</section>
+
+<h2 style="text-align:center" id="products">Биздин товарлар</h2>
+
+<div class="products">
+
+  <div class="product">
+    <img src="paypak3.jpeg" alt="Кара пайпак">
+    <h3>Кара пайпак</h3>
+    <p>Күнүмдүк кийүүгө ыңгайлуу</p>
+    <p class="price">150 сом</p>
+    <button onclick="addCart('Кара пайпак',150)">Себетке кошуу</button>
+  </div>
+
+  <div class="product">
+    <img src="paypak2.jpeg" alt="Ак пайпак">
+    <h3>Ак пайпак</h3>
+    <p>Жумшак жана сапаттуу</p>
+    <p class="price">150 сом</p>
+    <button onclick="addCart('Ак пайпак',150)">Себетке кошуу</button>
+  </div>
+
+  <div class="product">
+    <img src="paypak1.jpeg" alt="Жылуу пайпак">
+    <h3>Жылуу пайпак</h3>
+    <p>Кышкы мезгилге ылайыктуу</p>
+    <p class="price">250 сом</p>
+    <button onclick="addCart('Жылуу пайпак',250)">Себетке кошуу</button>
+  </div>
+
+  <div class="product">
+    <img src="paypak.jpeg" alt="Балдар пайпагы">
+    <h3>Балдар пайпагы</h3>
+    <p>Балдар үчүн жумшак пайпак</p>
+    <p class="price">120 сом</p>
+    <button onclick="addCart('Балдар пайпагы',120)">Себетке кошуу</button>
+  </div>
+
+</div>
+
+<section class="cart" id="cart">
+  <h2>🛒 Менин себетим</h2>
+  <div id="cartItems">Азырынча товар жок</div>
+  <h3>Жалпы сумма: <span id="total">0</span> сом</h3>
+
+  <h3>Заказ берүү</h3>
+  <input id="customer" placeholder="Атыңыз">
+  <input id="phone" placeholder="Телефон номериңиз">
+  <input id="address" placeholder="Дарегиңиз">
+
+  <label>Төлөө ыкмасы:</label>
+  <select id="payment">
+    <option>Колдон төлөө</option>
+    <option>MBANK</option>
+  </select>
+
+  <button onclick="orderWhatsApp()">WhatsApp аркылуу заказ берүү</button>
+</section>
+
+<footer>
+  <p>© 2026 PaypakShop</p>
+  <p>Бизди тандаганыңыз үчүн рахмат!</p>
+</footer>
+
+<script>
+let cart = [];
+
+function addCart(name, price) {
+  cart.push({name, price});
+  showCart();
+}
+
+function showCart() {
+  let html = "";
+  let total = 0;
+
+  cart.forEach((item, index) => {
+    total += item.price;
+    html += `<p>${item.name} — ${item.price} сом
+    <button onclick="removeItem(${index})">Өчүрүү</button></p>`;
+  });
+
+  document.getElementById("cartItems").innerHTML =
+    html || "Азырынча товар жок";
+
+  document.getElementById("total").textContent = total;
+}
+
+function removeItem(index) {
+  cart.splice(index, 1);
+  showCart();
+}
+
+function orderWhatsApp() {
+  if (cart.length === 0) {
+    alert("Себетке товар кошуңуз!");
+    return;
+  }
+
+  let name = document.getElementById("customer").value;
+  let phone = document.getElementById("phone").value;
+  let address = document.getElementById("address").value;
+  let payment = document.getElementById("payment").value;
+
+  if (!name || !phone || !address) {
+    alert("Маалыматтарды толтуруңуз!");
+    return;
+  }
+
+  let total = 0;
+  let message = "Саламатсызбы! PaypakShop'тон заказ:%0A";
+
+  cart.forEach(item => {
+    message += item.name + " — " + item.price + " сом%0A";
+    total += item.price;
+  });
+
+  message += "%0AЖалпы: " + total + " сом";
+  message += "%0AАты: " + name;
+  message += "%0AТелефон: " + phone;
+  message += "%0AДарек: " + address;
+  message += "%0AТөлөм: " + payment;
+
+  window.open(
+    "https://wa.me/996504553304?text=" + message,
+    "_blank"
+  );
+}
+</script>
+
+</body>
+</html>
+{
+  "name": "Мой Магазин",
+  "short_name": "Магазин",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#000000",
+  "icons": [
+    {
+      "src": "icon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}
+
+{
+	"folders": [
+		{
+			"path": "../nova-motors"
+		},
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"liveServer.settings.port": 5501,
+		"liveServer.settings.multiRootWorkspaceName": "Новая папка (3)"
+	}
+}
