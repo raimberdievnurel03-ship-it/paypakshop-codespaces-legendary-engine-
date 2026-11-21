@@ -1,0 +1,283 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f5f7;
+  color: #171717;
+  transition: 0.3s;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 7%;
+  background: #101820;
+  color: white;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.logo {
+  font-size: 25px;
+  font-weight: bold;
+  color: white;
+  text-decoration: none;
+}
+
+.logo span {
+  color: #ffb800;
+}
+
+nav {
+  display: flex;
+  gap: 25px;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  padding: 12px 18px;
+  border-radius: 8px;
+}
+
+#themeBtn {
+  background: #ffb800;
+  font-size: 18px;
+}
+
+.hero {
+  min-height: 500px;
+  display: flex;
+  align-items: center;
+  padding: 60px 8%;
+  color: white;
+  background:
+    linear-gradient(90deg, #101820 15%, transparent),
+    url("https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=1600")
+    center/cover;
+}
+
+.hero-content {
+  max-width: 550px;
+}
+
+.tag {
+  color: #ffb800;
+  margin-bottom: 20px;
+}
+
+.hero h1 {
+  font-size: 48px;
+  margin-bottom: 20px;
+}
+
+.hero-content p {
+  margin-bottom: 25px;
+}
+
+.main-btn {
+  display: inline-block;
+  background: #ffb800;
+  color: #111;
+  padding: 14px 24px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.cars-section {
+  padding: 65px 7%;
+  text-align: center;
+}
+
+.cars-section h2,
+.about h2,
+.tools h2 {
+  font-size: 32px;
+  margin-bottom: 12px;
+}
+
+.subtitle {
+  color: #777;
+}
+
+.filters {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin: 30px 0;
+  flex-wrap: wrap;
+}
+
+.filters input,
+.filters select,
+#addCarForm input {
+  padding: 13px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 15px;
+}
+
+.cars-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 25px;
+  text-align: left;
+}
+
+.car-card {
+  background: white;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px #00000012;
+}
+
+.car-card img {
+  width: 100%;
+  height: 190px;
+  object-fit: cover;
+}
+
+.car-info {
+  padding: 18px;
+}
+
+.car-info h3 {
+  margin-bottom: 10px;
+}
+
+.price {
+  color: #dc9900;
+  font-size: 21px;
+  font-weight: bold;
+  margin: 12px 0;
+}
+
+.card-buttons {
+  display: flex;
+  gap: 7px;
+  flex-wrap: wrap;
+}
+
+.card-buttons button {
+  background: #101820;
+  color: white;
+  padding: 10px;
+}
+
+.card-buttons .fav {
+  background: #e9eef2;
+  color: #111;
+}
+
+.tools {
+  padding: 45px 7%;
+  text-align: center;
+}
+
+.tools button {
+  background: #101820;
+  color: white;
+  margin: 8px;
+}
+
+.about {
+  padding: 60px 10%;
+  text-align: center;
+  background: #101820;
+  color: white;
+}
+
+.about p {
+  line-height: 1.8;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: #000b;
+  z-index: 20;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.modal-content {
+  background: white;
+  color: #111;
+  padding: 25px;
+  width: 100%;
+  max-width: 500px;
+  max-height: 85vh;
+  overflow-y: auto;
+  border-radius: 15px;
+}
+
+.modal-content img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+.close {
+  float: right;
+  background: #eee;
+  margin-bottom: 15px;
+}
+
+#addCarForm {
+  display: grid;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+#addCarForm button {
+  background: #ffb800;
+}
+
+body.dark {
+  background: #101820;
+  color: white;
+}
+
+body.dark .car-card,
+body.dark .modal-content {
+  background: #202d38;
+  color: white;
+}
+
+body.dark .filters input,
+body.dark .filters select {
+  background: #202d38;
+  color: white;
+}
+
+@media(max-width: 650px) {
+  header {
+    padding: 15px 4%;
+  }
+
+  nav {
+    gap: 10px;
+    font-size: 12px;
+  }
+
+  .hero h1 {
+    font-size: 34px;
+  }
+
+  .hero {
+    min-height: 400px;
+  }
+} 
