@@ -1,97 +1,308 @@
 <!DOCTYPE html>
 <html lang="ky">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CarZone | Автоунаа дүйнөсү</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MARKET GO — Онлайн электроника дүкөнү</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Arial,sans-serif;background:#f4f6f8;color:#222}
+header{background:#101827;color:white;padding:17px 5%;display:flex;align-items:center;justify-content:space-between;gap:15px;flex-wrap:wrap}
+.logo{font-size:27px;font-weight:bold;color:#ffb000}
+.search{display:flex;flex:1;max-width:500px}
+.search input{width:100%;padding:12px;border:0;border-radius:7px 0 0 7px;outline:none}
+.search button{padding:12px 18px;border:0;background:#ffb000;border-radius:0 7px 7px 0;cursor:pointer}
+.header-actions{display:flex;gap:15px;align-items:center}
+.header-actions button{background:none;color:white;border:0;cursor:pointer;font-size:15px}
+nav{background:#202e42;padding:13px 5%;display:flex;gap:22px;flex-wrap:wrap}
+nav a{color:white;text-decoration:none;font-size:14px}
+.hero{margin:20px auto;background:linear-gradient(110deg,#10213c,#245b91);color:white;padding:38px 6%;border-radius:12px;max-width:1200px}
+.hero h1{font-size:35px;margin-bottom:12px}
+.hero p{margin-bottom:20px;color:#e1e8f0}
+.hero button{padding:12px 22px;background:#ffb000;border:0;border-radius:6px;font-weight:bold;cursor:pointer}
+.container{max-width:1200px;margin:auto;padding:0 15px}
+.layout{display:grid;grid-template-columns:220px 1fr;gap:22px;margin:25px auto}
+.sidebar,.product-area{background:white;border-radius:10px;padding:18px}
+.sidebar h3{margin-bottom:15px}
+.category{display:block;width:100%;text-align:left;padding:11px;border:0;background:white;cursor:pointer;border-radius:5px}
+.category:hover,.category.active{background:#eaf2ff;color:#1458a6}
+.sidebar label{display:block;margin:12px 0}
+.products-top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:20px}
+.products-top select{padding:9px;border:1px solid #ddd;border-radius:6px}
+.products{display:grid;grid-template-columns:repeat(3,1fr);gap:17px}
+.card{border:1px solid #eee;border-radius:10px;padding:12px;position:relative;transition:.2s}
+.card:hover{transform:translateY(-4px);box-shadow:0 5px 18px #0001}
+.card img{width:100%;height:155px;object-fit:contain;background:#fafafa;border-radius:7px}
+.card h3{font-size:16px;margin:12px 0 8px}
+.price{font-weight:bold;color:#e47700;font-size:19px}
+.old{color:#999;text-decoration:line-through;font-size:13px;margin-left:7px}
+.discount{position:absolute;top:20px;left:20px;background:#e53935;color:white;padding:5px 8px;border-radius:5px;font-size:12px}
+.heart{position:absolute;right:20px;top:17px;border:0;background:white;font-size:23px;cursor:pointer}
+.add{width:100%;padding:10px;margin-top:12px;border:0;background:#ffb000;border-radius:6px;cursor:pointer;font-weight:bold}
+.add:hover{background:#ed9e00}
+footer{background:#101827;color:white;text-align:center;padding:28px;margin-top:35px}
+.modal{display:none;position:fixed;inset:0;background:#0009;z-index:10;align-items:center;justify-content:center;padding:15px}
+.modal-box{background:white;padding:25px;border-radius:12px;width:100%;max-width:430px;max-height:90vh;overflow:auto}
+.modal-box h2{margin-bottom:17px}
+.modal-box input{width:100%;padding:12px;margin:8px 0;border:1px solid #ddd;border-radius:6px}
+.modal-box button{padding:11px;border:0;border-radius:6px;background:#ffb000;cursor:pointer;margin-top:8px}
+.close{float:right;background:#eee!important}
+.cart-item{display:flex;justify-content:space-between;gap:10px;padding:12px 0;border-bottom:1px solid #eee}
+.cart-item button{padding:4px 9px;margin:0}
+.empty{text-align:center;padding:35px;color:#777}
+@media(max-width:800px){.layout{grid-template-columns:1fr}.products{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:480px){header{justify-content:center}.search{order:3;flex-basis:100%}.products{grid-template-columns:1fr 1fr}.card img{height:115px}.card h3{font-size:14px}.hero h1{font-size:27px}}
+</style>
 </head>
 <body>
 
 <header>
-  <a href="#" class="logo">CAR<span>ZONE</span></a>
-
-  <nav>
-    <a href="#home">Башкы бет</a>
-    <a href="#cars">Автоунаалар</a>
-    <a href="#about">Биз жөнүндө</a>
-  </nav>
-
-  <button id="themeBtn">🌙</button>
+  <div class="logo">MARKET GO</div>
+  <div class="search">
+    <input id="search" placeholder="Товар издөө...">
+    <button onclick="renderProducts()">🔍</button>
+  </div>
+  <div class="header-actions">
+    <button onclick="openAccount()">👤 Аккаунт</button>
+    <button onclick="showFavorites()">❤️</button>
+    <button onclick="openCart()">🛒 Себет (<span id="cartCount">0</span>)</button>
+  </div>
 </header>
 
-<section class="hero" id="home">
-  <div class="hero-content">
-    <p class="tag">CARZONE — АВТО ДҮЙНӨСҮ</p>
-    <h1>ӨЗҮҢӨ ЫЛАЙЫК<br>УНААНЫ ТАНДА</h1>
-    <p>Сапаттуу жана заманбап автоунааларды бизден тап.</p>
-    <a href="#cars" class="main-btn">Унааларды көрүү</a>
-  </div>
-</section>
+<nav>
+  <a href="#" onclick="filterCategory('Баары')">Башкы бет</a>
+  <a href="#" onclick="filterCategory('Телефондор')">Телефондор</a>
+  <a href="#" onclick="filterCategory('Ноутбуктар')">Ноутбуктар</a>
+  <a href="#" onclick="filterCategory('Кулакчындар')">Кулакчындар</a>
+  <a href="#" onclick="filterCategory('Телевизорлор')">Телевизорлор</a>
+</nav>
 
-<section class="cars-section" id="cars">
-  <h2>Биздин автоунаалар</h2>
-  <p class="subtitle">Өзүңө жаккан унааны танда</p>
+<div class="container">
+  <section class="hero">
+    <h1>MARKET GO — онлайн соода!</h1>
+    <p>Сүйүктүү электроникаңды бир жерден тап. Жакшы баалар жана ыңгайлуу заказ.</p>
+    <button onclick="document.getElementById('catalog').scrollIntoView()">Азыр сатып алуу</button>
+  </section>
+</div>
 
-  <div class="filters">
-    <input type="text" id="search" placeholder="Унаа издөө...">
+<main class="container layout" id="catalog">
+  <aside class="sidebar">
+    <h3>Категориялар</h3>
+    <button class="category active" onclick="filterCategory('Баары',this)">Бардык товарлар</button>
+    <button class="category" onclick="filterCategory('Телефондор',this)">📱 Телефондор</button>
+    <button class="category" onclick="filterCategory('Ноутбуктар',this)">💻 Ноутбуктар</button>
+    <button class="category" onclick="filterCategory('Кулакчындар',this)">🎧 Кулакчындар</button>
+    <button class="category" onclick="filterCategory('Телевизорлор',this)">📺 Телевизорлор</button>
+    <button class="category" onclick="filterCategory('Аксессуарлар',this)">⌚ Аксессуарлар</button>
+    <hr style="margin:18px 0;border:0;border-top:1px solid #eee">
+    <h3>Баасы</h3>
+    <label>Минималдуу баа</label>
+    <input id="minPrice" type="number" placeholder="0" style="width:100%;padding:9px">
+    <label>Максималдуу баа</label>
+    <input id="maxPrice" type="number" placeholder="100000" style="width:100%;padding:9px">
+    <button class="add" onclick="renderProducts()">Фильтр колдонуу</button>
+  </aside>
 
-    <select id="brandFilter">
-      <option value="">Бардык маркалар</option>
-      <option value="BMW">BMW</option>
-      <option value="Mercedes">Mercedes</option>
-      <option value="Toyota">Toyota</option>
-      <option value="Tesla">Tesla</option>
-      <option value="BYD">BYD</option>
-    </select>
+  <section class="product-area">
+    <div class="products-top">
+      <h2>Популярдуу товарлар</h2>
+      <select id="sort" onchange="renderProducts()">
+        <option value="default">Сорттоо</option>
+        <option value="low">Баасы: арзандан кымбатка</option>
+        <option value="high">Баасы: кымбаттан арзанга</option>
+      </select>
+    </div>
+    <div class="products" id="products"></div>
+  </section>
+</main>
 
-    <select id="priceFilter">
-      <option value="">Баасы</option>
-      <option value="10000">10 000$ чейин</option>
-      <option value="20000">20 000$ чейин</option>
-      <option value="30000">30 000$ чейин</option>
-    </select>
-  </div>
+<footer>
+  <h2>MARKET GO</h2>
+  <p style="margin-top:10px">Сапаттуу электроника — ыңгайлуу соода!</p>
+  <p style="margin-top:10px">© 2026 MARKET GO</p>
+</footer>
 
-  <div class="cars-grid" id="carsGrid"></div>
-</section>
-
-<section class="tools">
-  <h2>Кошумча мүмкүнчүлүктөр</h2>
-  <button onclick="showFavorites()">❤️ Сүйүктүүлөр</button>
-  <button onclick="showComparison()">⚖️ Салыштыруу</button>
-  <button onclick="showAllCars()">Бардык унаалар</button>
-  <button onclick="openAddForm()">➕ Унаа кошуу</button>
-</section>
-
-<section class="about" id="about">
-  <h2>CarZone жөнүндө</h2>
-  <p>CarZone — автоунааларды табуу, салыштыруу жана сатып алуу үчүн түзүлгөн заманбап платформа.</p>
-</section>
-
-<div class="modal" id="carModal">
-  <div class="modal-content">
-    <button class="close" onclick="closeModal()">✕</button>
-    <div id="modalBody"></div>
+<!-- Себет -->
+<div class="modal" id="cartModal">
+  <div class="modal-box">
+    <button class="close" onclick="closeModal('cartModal')">✕</button>
+    <h2>🛒 Менин себетим</h2>
+    <div id="cartItems"></div>
+    <h3 id="cartTotal">Жалпы: 0 сом</h3>
+    <button onclick="checkout()">Заказ берүү</button>
   </div>
 </div>
 
-<div class="modal" id="addModal">
-  <div class="modal-content">
-    <button class="close" onclick="closeAddForm()">✕</button>
-    <h2>Жаңы унаа кошуу</h2>
-
-    <form id="addCarForm">
-      <input id="newName" placeholder="Унаанын аты" required>
-      <input id="newBrand" placeholder="Маркасы" required>
-      <input id="newPrice" type="number" placeholder="Баасы ($)" required>
-      <input id="newYear" type="number" placeholder="Жылы" required>
-      <input id="newImage" type="url" placeholder="Сүрөттүн URL шилтемеси" required>
-      <button type="submit" class="main-btn">Унааны кошуу</button>
-    </form>
+<!-- Аккаунт -->
+<div class="modal" id="accountModal">
+  <div class="modal-box">
+    <button class="close" onclick="closeModal('accountModal')">✕</button>
+    <h2>👤 Аккаунт</h2>
+    <p id="accountStatus">Аккаунтка кирүү же катталуу</p>
+    <input id="userName" placeholder="Атыңыз">
+    <input id="userEmail" type="email" placeholder="Email">
+    <input id="userPassword" type="password" placeholder="Сыр сөз">
+    <button onclick="register()">Катталуу</button>
+    <button onclick="login()">Кирүү</button>
+    <button onclick="logout()">Чыгуу</button>
   </div>
 </div>
 
-<script src="script.js"></script>
+<script>
+const productsData = [
+{id:1,name:"Samsung Galaxy S24",category:"Телефондор",price:52000,old:59000,img:"https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=500"},
+{id:2,name:"iPhone 15",category:"Телефондор",price:69000,old:75000,img:"https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=500"},
+{id:3,name:"Xiaomi Redmi Note",category:"Телефондор",price:18500,old:22000,img:"https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=500"},
+{id:4,name:"MacBook Air",category:"Ноутбуктар",price:95000,old:105000,img:"https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=500"},
+{id:5,name:"HP Laptop",category:"Ноутбуктар",price:57000,old:63000,img:"https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=500"},
+{id:6,name:"Gaming Laptop",category:"Ноутбуктар",price:89000,old:99000,img:"https://images.unsplash.com/photo-1603302576837-37561b2e2302?w=500"},
+{id:7,name:"AirPods Pro",category:"Кулакчындар",price:14500,old:17000,img:"https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?w=500"},
+{id:8,name:"Wireless Headphones",category:"Кулакчындар",price:6500,old:8000,img:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500"},
+{id:9,name:"Sony Headphones",category:"Кулакчындар",price:12500,old:15000,img:"https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=500"},
+{id:10,name:"Smart TV 55",category:"Телевизорлор",price:48000,old:55000,img:"https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=500"},
+{id:11,name:"Smart Watch",category:"Аксессуарлар",price:7500,old:9500,img:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500"},
+{id:12,name:"Digital Camera",category:"Аксессуарлар",price:32000,old:37000,img:"https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=500"}
+];
+
+let cart = JSON.parse(localStorage.getItem("marketGoCart") || "[]");
+let favorites = JSON.parse(localStorage.getItem("marketGoFavorites") || "[]");
+let currentCategory = "Баары";
+let favoriteMode = false;
+
+function money(n){return n.toLocaleString("en-US")+" сом"}
+
+function renderProducts(){
+  const search = document.getElementById("search").value.toLowerCase();
+  const min = Number(document.getElementById("minPrice").value) || 0;
+  const max = Number(document.getElementById("maxPrice").value) || Infinity;
+  let list = productsData.filter(p =>
+    (currentCategory==="Баары" || p.category===currentCategory) &&
+    p.name.toLowerCase().includes(search) &&
+    p.price>=min && p.price<=max &&
+    (!favoriteMode || favorites.includes(p.id))
+  );
+  const sort = document.getElementById("sort").value;
+  if(sort==="low") list.sort((a,b)=>a.price-b.price);
+  if(sort==="high") list.sort((a,b)=>b.price-a.price);
+
+  document.getElementById("products").innerHTML = list.length ? list.map(p=>`
+    <article class="card">
+      <span class="discount">Арзандатуу</span>
+      <button class="heart" onclick="toggleFavorite(${p.id})">${favorites.includes(p.id)?"❤️":"🤍"}</button>
+      <img src="${p.img}" alt="${p.name}" onerror="this.src='https://placehold.co/300x200?text=MARKET+GO'">
+      <h3>${p.name}</h3>
+      <p class="price">${money(p.price)} <span class="old">${money(p.old)}</span></p>
+      <button class="add" onclick="addToCart(${p.id})">🛒 Себетке кошуу</button>
+    </article>`).join("") : '<div class="empty">Товар табылган жок.</div>';
+}
+
+function filterCategory(category,button){
+  currentCategory=category;
+  favoriteMode=false;
+  document.querySelectorAll(".category").forEach(b=>b.classList.remove("active"));
+  if(button) button.classList.add("active");
+  renderProducts();
+}
+
+function toggleFavorite(id){
+  favorites = favorites.includes(id) ? favorites.filter(x=>x!==id) : [...favorites,id];
+  localStorage.setItem("marketGoFavorites",JSON.stringify(favorites));
+  renderProducts();
+}
+function showFavorites(){
+  favoriteMode=true;
+  currentCategory="Баары";
+  renderProducts();
+  document.getElementById("catalog").scrollIntoView();
+}
+
+function saveCart(){
+  localStorage.setItem("marketGoCart",JSON.stringify(cart));
+  document.getElementById("cartCount").textContent=cart.reduce((s,x)=>s+x.qty,0);
+}
+function addToCart(id){
+  const item=cart.find(x=>x.id===id);
+  if(item)item.qty++;
+  else cart.push({id,qty:1});
+  saveCart();
+  alert("Товар себетке кошулду!");
+}
+function openCart(){
+  document.getElementById("cartModal").style.display="flex";
+  renderCart();
+}
+function renderCart(){
+  const box=document.getElementById("cartItems");
+  let total=0;
+  if(!cart.length){box.innerHTML='<p class="empty">Себет азырынча бош.</p>'}
+  else{
+    box.innerHTML=cart.map(item=>{
+      const p=productsData.find(x=>x.id===item.id);
+      total+=p.price*item.qty;
+      return `<div class="cart-item">
+        <div><b>${p.name}</b><br>${money(p.price)} × ${item.qty}</div>
+        <div>
+          <button onclick="changeQty(${p.id},-1)">−</button>
+          <button onclick="changeQty(${p.id},1)">+</button>
+          <button onclick="removeItem(${p.id})">🗑</button>
+        </div>
+      </div>`;
+    }).join("");
+  }
+  document.getElementById("cartTotal").textContent="Жалпы: "+money(total);
+}
+function changeQty(id,n){
+  const item=cart.find(x=>x.id===id);
+  if(item){item.qty+=n;if(item.qty<=0)cart=cart.filter(x=>x.id!==id)}
+  saveCart();renderCart();
+}
+function removeItem(id){
+  cart=cart.filter(x=>x.id!==id);saveCart();renderCart();
+}
+function checkout(){
+  if(!cart.length){alert("Себет бош!");return}
+  const total=cart.reduce((s,x)=>s+productsData.find(p=>p.id===x.id).price*x.qty,0);
+  alert("Заказыңыз даярдалды. Жалпы сумма: "+money(total)+". Дүкөндүн байланыш номерин кошкондон кийин WhatsApp заказын туташтырууга болот.");
+}
+function openAccount(){
+  document.getElementById("accountModal").style.display="flex";
+  const user=JSON.parse(localStorage.getItem("marketGoUser")||"null");
+  document.getElementById("accountStatus").textContent=user?"Кош келиңиз, "+user.name:"Аккаунтка кирүү же катталуу";
+}
+function register(){
+  const name=document.getElementById("userName").value.trim();
+  const email=document.getElementById("userEmail").value.trim();
+  const password=document.getElementById("userPassword").value;
+  if(!name||!email||!password){alert("Бардык талааларды толтуруңуз");return}
+  let users=JSON.parse(localStorage.getItem("marketGoUsers")||"[]");
+  if(users.some(u=>u.email===email)){alert("Бул email катталган");return}
+  users.push({name,email,password});
+  localStorage.setItem("marketGoUsers",JSON.stringify(users));
+  localStorage.setItem("marketGoUser",JSON.stringify({name,email}));
+  alert("Катталдыңыз!");
+  openAccount();
+}
+function login(){
+  const email=document.getElementById("userEmail").value.trim();
+  const password=document.getElementById("userPassword").value;
+  const users=JSON.parse(localStorage.getItem("marketGoUsers")||"[]");
+  const user=users.find(u=>u.email===email&&u.password===password);
+  if(!user){alert("Email же сыр сөз туура эмес");return}
+  localStorage.setItem("marketGoUser",JSON.stringify({name:user.name,email:user.email}));
+  alert("Аккаунтка кирдиңиз!");
+  openAccount();
+}
+function logout(){
+  localStorage.removeItem("marketGoUser");
+  document.getElementById("accountStatus").textContent="Аккаунттан чыктыңыз";
+}
+function closeModal(id){document.getElementById(id).style.display="none"}
+document.getElementById("search").addEventListener("input",renderProducts);
+document.querySelectorAll(".modal").forEach(m=>m.addEventListener("click",e=>{
+  if(e.target===m)m.style.display="none";
+}));
+saveCart();
+renderProducts();
+</script>
 </body>
 </html>
